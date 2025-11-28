@@ -14,16 +14,18 @@ def validate_ticket_pricing(
     """
     Validate that a ticket meets the minimum pure profit requirement.
 
-    Pure profit is calculated as:
-    total_price - total_parts_cost
-
-    This represents the margin on parts used. Labor is considered
-    pure profit by default.
+    Pure profit calculation:
+    pure_profit = total_price - total_parts_cost
+    
+    Note: total_labor is included in total_price but not subtracted because
+    labor charges are revenue, not cost. The labor parameter is tracked
+    for reporting purposes but the profit validation only considers
+    parts cost vs. total price charged.
 
     Args:
-        total_parts_cost: Total cost of parts used
-        total_labor: Total labor charges
-        total_price: Total price charged to customer
+        total_parts_cost: Total cost of parts used (our wholesale cost)
+        total_labor: Total labor charges (included for tracking/reporting)
+        total_price: Total price charged to customer (includes labor + parts markup)
         minimum_profit: Minimum required pure profit
 
     Returns:
@@ -66,12 +68,11 @@ def calculate_suggested_price(
 
     Args:
         total_parts_cost: Total cost of parts used
-        total_labor: Total labor charges
+        total_labor: Total labor charges (not used in calculation, included for API consistency)
         minimum_profit: Minimum required pure profit
 
     Returns:
         Minimum price that would satisfy profit requirements
     """
     # Minimum price = parts cost + minimum profit
-    # Labor is added on top
     return total_parts_cost + minimum_profit

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { api } from '../api';
 import { tokenStore } from '../auth/tokenStore';
+import { API_BASE_URL } from '../config';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -15,7 +15,7 @@ function Login() {
       formData.append('password', credentials.password);
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'}/auth/login`,
+        `${API_BASE_URL}/auth/login`,
         {
           method: 'POST',
           headers: {
